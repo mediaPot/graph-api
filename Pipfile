@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "==0.103.1"
+uvicorn = "*"
+neo4j = "*"
+python-dotenv = "*"
+
+[dev-packages]
+black = "==22.3.0"
+flake8 = "==6.1.0"
+mypy = "*"
+isort = "*"
+colorlog = "*"
+
+[requires]
+python_version = "3.12"
+python_full_version = "3.12.3"
