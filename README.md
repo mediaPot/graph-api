@@ -79,6 +79,11 @@ If the error
 pip install setuptools
 ```
 
+Create a .env file (that should be stored only locally) and update it with the correct information,
+based on the .env.example
+```commandline
+cp .env.example .env
+```
 ### Check styling and formatting 🖋️
 Check basic styling issues using flake8 linter
 ```commandline
