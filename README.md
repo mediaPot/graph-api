@@ -10,6 +10,9 @@ python -m graph_api
 
 List of available routes 📍: 
 - GET request:  http://0.0.0.0:8000/graph/welcome
+- GET request:  http://0.0.0.0:8000/graph/nodes
+- GET request:  http://0.0.0.0:8000/graph/labels-and-counts
+- GET request:  http://0.0.0.0:8000/graph/{label}/{keyword}
 
 ## Dockerization 🐳
 
