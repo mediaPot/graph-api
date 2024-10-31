@@ -1,7 +1,7 @@
 from datetime import datetime
 
 __MAJOR__ = 1
-__MINOR__ = 0
+__MINOR__ = 1
 __PATCH__ = 0
 
 __title__ = "Graph-API"

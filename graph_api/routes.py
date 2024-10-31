@@ -75,16 +75,19 @@ async def graph_subset(
         robject["connected_node_name"] = r["connected_node"]._properties["name"]
         if labels[0] == "Title":
             robject["connected_node_url"] = r["connected_node"]._properties["url"]
+            robject["connected_node_date"] = r["connected_node"]._properties["date"]
+            robject["connected_node_sentiment"] = r["connected_node"]._properties["sentiment"]
+            robject["connected_node_provider"] = r["connected_node"]._properties["provider"]
 
         robject["relationship_type"] = r["relationship"].type
-        robject["datetime"] = r["relationship"]._properties["date"]
+        robject["datetime"] = robject["connected_node_date"] #r["relationship"]._properties["date"]
         parts = robject["datetime"].split("T")
         robject["date"] = parts[0]
         robject["time"] = parts[1].split(".")[0]
         robject["relationship_element_id"] = r["relationship"].element_id
         results.append(robject)
 
-    sorted_results = sorted(results, key=get_date)
+    sorted_results = sorted(results, key=get_date, reverse=True)
     locations, orgs, persons = [], [], []
     if label == "Title":
         locations = [

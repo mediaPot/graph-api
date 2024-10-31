@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [1.1.0] - `31.10.2024`
+
+### Changed
+
+- Update route @router.get("/graph-subset/{label}/{keyword}") to fetch the date from the article instead of relationship
+  (db schema changed and caused this update)
+- Change the articles sorting based on the date from newest to oldest
 
 # [1.0.0] - `16.05.2024`
 
