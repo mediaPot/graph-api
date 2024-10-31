@@ -78,48 +78,58 @@ async def graph_subset(
             robject["connected_node_date"] = r["connected_node"]._properties["date"]
             robject["connected_node_sentiment"] = r["connected_node"]._properties["sentiment"]
             robject["connected_node_provider"] = r["connected_node"]._properties["provider"]
+            robject["datetime"] = robject["connected_node_date"]  # r["relationship"]._properties["date"]
+            parts = robject["datetime"].split("T")
+            robject["date"] = parts[0]
+            robject["time"] = parts[1].split(".")[0]
 
         robject["relationship_type"] = r["relationship"].type
-        robject["datetime"] = robject["connected_node_date"] #r["relationship"]._properties["date"]
-        parts = robject["datetime"].split("T")
-        robject["date"] = parts[0]
-        robject["time"] = parts[1].split(".")[0]
         robject["relationship_element_id"] = r["relationship"].element_id
         results.append(robject)
 
-    sorted_results = sorted(results, key=get_date, reverse=True)
     locations, orgs, persons = [], [], []
     if label == "Title":
         locations = [
             i["connected_node_name"]
-            for i in sorted_results
+            for i in results
             if i["connected_node_label"] == "Location"
         ]
         orgs = [
             i["connected_node_name"]
-            for i in sorted_results
+            for i in results
             if i["connected_node_label"] == "Org"
         ]
         persons = [
             i["connected_node_name"]
-            for i in sorted_results
+            for i in results
             if i["connected_node_label"] == "Person"
         ]
         locations.sort()
         orgs.sort()
         persons.sort()
+    else:
+        sorted_results = sorted(results, key=get_date, reverse=True)
+        oldest = sorted_results[0]["date"] if len(sorted_results) > 0 else ""
+        newest = sorted_results[-1]["date"] if len(sorted_results) > 0 else ""
 
     connected_node_labels_set["locations"] = locations
     connected_node_labels_set["orgs"] = orgs
     connected_node_labels_set["persons"] = persons
 
-    oldest = sorted_results[0]["date"] if len(sorted_results) > 0 else ""
-    newest = sorted_results[-1]["date"] if len(sorted_results) > 0 else ""
+    if label == "Title":
+        re = {
+            "connected_node_labels": connected_node_labels_set,
+            "graph_subset": results,
+            "length": len(results),
+        }
+    else:
+        re = {
+            "connected_node_labels": connected_node_labels_set,
+            "graph_subset": sorted_results,
+            "length": len(sorted_results),
+            "oldest": oldest,
+            "newest": newest,
+        }
 
-    return {
-        "connected_node_labels": connected_node_labels_set,
-        "graph_subset": sorted_results,
-        "length": len(sorted_results),
-        "oldest": oldest,
-        "newest": newest,
-    }
+
+    return re
