@@ -8,6 +8,7 @@ fastapi = "==0.103.1"
 uvicorn = "*"
 neo4j = "*"
 python-dotenv = "*"
+colorlog = "*"
 
 [dev-packages]
 black = "==22.3.0"

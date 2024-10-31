@@ -1,5 +1,5 @@
 {
-  "port": 8000,
+  "port": 2005,
   "host": "0.0.0.0",
-  "origins": ["http://localhost:3000", "localhost:3000"]
+  "origins": ["http://localhost:2006", "localhost:2006", "http://143.233.226.88:2006", "https://143.233.226.88:2006", "https://localhost:2006"]
 }
