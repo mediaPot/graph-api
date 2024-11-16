@@ -19,3 +19,4 @@ app.add_middleware(
 
 if __name__ == "__main__":
     uvicorn.run(app, host=api_config["host"], port=api_config["port"])
+    uvicorn.run(app, host=api_config["host"], port=api_config["port"],ssl_certfile="/usr/local/share/ca-certificates/143.233.226.88.crt", ssl_keyfile="/usr/local/share/ca-certificates/143.233.226.88.key")
