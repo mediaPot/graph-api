@@ -25,4 +25,5 @@ class Neo4jConnector:
         )
         session = driver.session()
         yield session
+
         session.close()
