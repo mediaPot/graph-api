@@ -7,4 +7,4 @@ def get_subset(label, keyword: str):
 
 
 def get_subset_stemmed(label, keyword: str):
-    return f"MATCH (n:{label})-[r]-(m) WHERE '{keyword}' IN n.location_ref RETURN n, r, m"
+    return f"MATCH (n:{label})-[r]-(m) WHERE '{keyword}' IN n.{label.lower()}_ref RETURN n, r, m"
