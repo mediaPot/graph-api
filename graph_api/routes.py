@@ -44,7 +44,10 @@ def get_date(d):
 async def graph_subset(
     label: str, keyword: str, session=Depends(neo4j.get_neo4j_session)
 ):
-    result = session.run(neo4j.queries.get_subset(label, keyword))
+    if label == "Title":
+        result = session.run(neo4j.queries.get_subset(label, keyword))
+    else:
+        result = session.run(neo4j.queries.get_subset_stemmed(label, keyword))
     gs = [
         {
             "node": record["n"],
@@ -73,6 +76,7 @@ async def graph_subset(
         robject["connected_node_element_id"] = r["connected_node"].element_id
         robject["connected_node_label"] = labels[0]
         robject["connected_node_name"] = r["connected_node"]._properties["name"]
+
         if labels[0] == "Title":
             robject["connected_node_url"] = r["connected_node"]._properties["url"]
             robject["connected_node_date"] = r["connected_node"]._properties["date"]
@@ -82,6 +86,9 @@ async def graph_subset(
             parts = robject["datetime"].split("T")
             robject["date"] = parts[0]
             robject["time"] = parts[1].split(".")[0]
+        else:
+            key = [i for i in list(r["connected_node"]._properties.keys()) if i.endswith('_ref')][0]
+            robject[f"connected_node_{key}"] = r["connected_node"]._properties[key][0]
 
         robject["relationship_type"] = r["relationship"].type
         robject["relationship_element_id"] = r["relationship"].element_id
@@ -89,18 +96,19 @@ async def graph_subset(
 
     locations, orgs, persons = [], [], []
     if label == "Title":
+
         locations = [
-            i["connected_node_name"]
+            i["connected_node_location_ref"]
             for i in results
             if i["connected_node_label"] == "Location"
         ]
         orgs = [
-            i["connected_node_name"]
+            i["connected_node_org_ref"]
             for i in results
             if i["connected_node_label"] == "Org"
         ]
         persons = [
-            i["connected_node_name"]
+            i["connected_node_person_ref"]
             for i in results
             if i["connected_node_label"] == "Person"
         ]
